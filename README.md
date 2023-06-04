@@ -1,2 +1,6 @@
 # Automata
-Implementations of DFA and NFA (incl. examples) in Python
+Provides implementations and examples of deterministic finite automata
+(DFA), non-deterministic finite automata (NFA) and pushdown automata (PDA)
+in Python.
+  
+

@@ -7,6 +7,15 @@ class NFA:
         * delta : A dictionary representing the transition function of the NFA.
         * initial_state: The initial state of the NFA.
         * final_states: A set of all final (accepting) states in the NFA.
+    Remarks:
+        * The transition function associates a (possibly empty) set to a pair
+          of the form (state, symbol). If a pair of this form does not appear
+          as a key in the dictionary, this is interpreted to mean that there
+          is no arrow labeled with this symbol leaving this state.
+          Equivalently, one can assign the empty set to such a pair for the
+          same effect.
+        * The empty symbol ε should be represented by the string "eps".
+
     """
     def __init__(self,
                  states: set,
@@ -21,13 +30,13 @@ class NFA:
         self.initial_state = initial_state
         self.final_states = final_states
 
-    def epsilon_flow(self, states):
+    def epsilon_flow(self, states: set) -> set:
         """ Returns the set of all possible states obtained by following a
         single epsilon arrow, starting from a given set of states. """
         return set([self.delta[state, "eps"] for state in states
                     if self.delta.get((state, "eps"))])
 
-    def epsilon_closure(self, states):
+    def epsilon_closure(self, states: set) -> set:
         """ Given a set 'states', returns its epsilon closure, i.e, the set of
         all states which can be reached from some state in 'states' by
         following zero or more consecutive epsilon arrows. """
@@ -37,7 +46,7 @@ class NFA:
             new_states = self.epsilon_flow(new_states)
         return states
 
-    def run(self, input_list: list):
+    def run(self, input_list: list) -> set:
         """ Determines if the NFA accepts a given input list of symbols. """
         current_states = {self.initial_state}
         for symbol in input_list:
@@ -48,7 +57,7 @@ class NFA:
             current_states = self.epsilon_closure(new_states)
         return current_states.intersection(self.final_states)
 
-    def decide(self, input_list: list):
+    def decide(self, input_list: list) -> None:
         """
         Prints a message stating whether a given input (in the form of a list
         of symbols) is accepted or rejected by the NFA.
@@ -58,5 +67,3 @@ class NFA:
             print(f"Input \"{''.join(input_str)}\" is recognized by this NFA.")
         else:
             print(f"Input \"{''.join(input_str)}\" is rejected by this NFA.")
-
-        return None
