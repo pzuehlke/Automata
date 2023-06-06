@@ -1,4 +1,4 @@
-# INCOMPLETE/INCORRECT
+# WORK IN PROGRESS; STILL INCOMPLETE/INCORRECT
 class PDA:
     def __init__(self,
                  states: set,
